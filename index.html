@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>공 튕기기</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #f0f0f0;
+      cursor: crosshair;
+    }
+    .ball {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: tomato;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const balls = [];
+
+  document.addEventListener('click', (e) => {
+    const ball = document.createElement('div');
+    ball.classList.add('ball');
+    document.body.appendChild(ball);
+
+    const radius = 15;
+    const x = e.clientX - radius;
+    const y = e.clientY - radius;
+
+    const dx = (Math.random() - 0.5) * 8;
+    const dy = (Math.random() - 0.5) * 8;
+
+    balls.push({
+      el: ball,
+      x,
+      y,
+      dx,
+      dy,
+      r: radius
+    });
+  });
+
+  function animate() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    balls.forEach(ball => {
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      if (ball.x <= 0 || ball.x + ball.r * 2 >= width) {
+        ball.dx *= -1;
+      }
+
+      if (ball.y <= 0 || ball.y + ball.r * 2 >= height) {
+        ball.dy *= -1;
+      }
+
+      ball.el.style.transform = `translate(${ball.x}px, ${ball.y}px)`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+</body>
+</html>
